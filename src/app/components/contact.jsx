@@ -4,22 +4,29 @@ import { Mail, Phone, MapPin } from "lucide-react";
 
 export default function Contact() {
   return (
-    <section className="relative w-full py-24 bg-black">
+    <section
+      id="contact"
+      className="relative w-full py-24 bg-black"
+      aria-labelledby="contact-heading"
+    >
       <div className="max-w-7xl mx-auto px-6">
         {/* Heading */}
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-5xl font-bold text-white">
+        <header className="text-center mb-16">
+          <h2
+            id="contact-heading"
+            className="text-3xl md:text-5xl font-bold text-white"
+          >
             Let's <span className="text-sky-400">Build Something Great</span>
           </h2>
           <p className="mt-4 text-white/60 max-w-2xl mx-auto">
             Ready to transform your vision into reality? Get in touch with our
             team today.
           </p>
-        </div>
+        </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
           {/* Left Info */}
-          <div>
+          <article>
             <h3 className="text-2xl font-semibold text-white mb-4">
               Get In Touch
             </h3>
@@ -28,7 +35,7 @@ export default function Contact() {
               from you. Reach out and let's discuss how we can help.
             </p>
 
-            <div className="space-y-6">
+            <address className="not-italic space-y-6">
               <div className="flex items-center gap-4 p-5 rounded-2xl bg-black/40 border border-sky-400/20">
                 <div className="w-10 h-10 rounded-xl bg-sky-400/10 flex items-center justify-center text-sky-400">
                   <Mail size={18} />
@@ -55,7 +62,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <p className="text-white font-medium">Address</p>
-                  <p className="text-white/60 text-sm">Pune,Maharashtra</p>
+                  <p className="text-white/60 text-sm">Pune, Maharashtra</p>
                 </div>
               </div>
 
@@ -63,17 +70,18 @@ export default function Contact() {
                 ⚡ <span className="text-sky-400">Quick Response:</span> We
                 typically respond within 2–4 hours during business hours.
               </div>
-            </div>
-          </div>
+            </address>
+          </article>
 
           {/* Right Form */}
-          <div className="rounded-2xl p-8 bg-black/40 border border-sky-400/20">
-            <form className="space-y-6">
+          <section className="rounded-2xl p-8 bg-black/40 border border-sky-400/20">
+            <form className="space-y-6" aria-label="Contact Form">
               <div>
-                <label className="block text-sm text-white mb-2">
+                <label htmlFor="name" className="block text-sm text-white mb-2">
                   Full Name *
                 </label>
                 <input
+                  id="name"
                   type="text"
                   placeholder="Your name"
                   className="w-full px-4 py-3 rounded-xl bg-black/60 border border-white/10 text-white placeholder-white/40 focus:outline-none focus:border-sky-400/40"
@@ -81,10 +89,11 @@ export default function Contact() {
               </div>
 
               <div>
-                <label className="block text-sm text-white mb-2">
+                <label htmlFor="email" className="block text-sm text-white mb-2">
                   Email Address *
                 </label>
                 <input
+                  id="email"
                   type="email"
                   placeholder="your@email.com"
                   className="w-full px-4 py-3 rounded-xl bg-black/60 border border-white/10 text-white placeholder-white/40 focus:outline-none focus:border-sky-400/40"
@@ -92,10 +101,11 @@ export default function Contact() {
               </div>
 
               <div>
-                <label className="block text-sm text-white mb-2">
+                <label htmlFor="company" className="block text-sm text-white mb-2">
                   Company Name
                 </label>
                 <input
+                  id="company"
                   type="text"
                   placeholder="Your company"
                   className="w-full px-4 py-3 rounded-xl bg-black/60 border border-white/10 text-white placeholder-white/40 focus:outline-none focus:border-sky-400/40"
@@ -103,10 +113,13 @@ export default function Contact() {
               </div>
 
               <div>
-                <label className="block text-sm text-white mb-2">
+                <label htmlFor="service" className="block text-sm text-white mb-2">
                   What service are you interested in? *
                 </label>
-                <select className="w-full px-4 py-3 rounded-xl bg-black/60 border border-white/10 text-white focus:outline-none focus:border-sky-400/40">
+                <select
+                  id="service"
+                  className="w-full px-4 py-3 rounded-xl bg-black/60 border border-white/10 text-white focus:outline-none focus:border-sky-400/40"
+                >
                   <option>Select a service...</option>
                   <option>Web Development</option>
                   <option>App Development</option>
@@ -118,14 +131,15 @@ export default function Contact() {
               </div>
 
               <div>
-                <label className="block text-sm text-white mb-2">
+                <label htmlFor="message" className="block text-sm text-white mb-2">
                   Message *
                 </label>
                 <textarea
-                  rows="4"
+                  id="message"
+                  rows={4}
                   placeholder="Tell us about your project..."
                   className="w-full px-4 py-3 rounded-xl bg-black/60 border border-white/10 text-white placeholder-white/40 focus:outline-none focus:border-sky-400/40"
-                ></textarea>
+                />
               </div>
 
               {/* Gradient Button */}
@@ -154,7 +168,7 @@ export default function Contact() {
                 </button>
               </div>
             </form>
-          </div>
+          </section>
         </div>
       </div>
     </section>

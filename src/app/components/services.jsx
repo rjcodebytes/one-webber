@@ -92,25 +92,33 @@ export default function Services() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative w-full py-24 bg-black">
+    <section
+      ref={sectionRef}
+      id="services"
+      className="relative w-full py-24 bg-black"
+      aria-labelledby="services-heading"
+    >
       <div className="max-w-7xl mx-auto px-6">
         {/* Heading */}
-        <div ref={headerRef} className="text-center">
-          <h2 className="text-3xl md:text-5xl font-bold text-white">
+        <header ref={headerRef} className="text-center">
+          <h2
+            id="services-heading"
+            className="text-3xl md:text-5xl font-bold text-white"
+          >
             Our <span className="text-sky-400">Services</span>
           </h2>
           <p className="mt-4 text-white/60 max-w-2xl mx-auto">
             Comprehensive digital solutions tailored to your business needs and
             goals.
           </p>
-        </div>
+        </header>
 
         {/* Cards */}
         <div className="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((s, i) => {
             const Icon = s.icon;
             return (
-              <div
+              <article
                 key={i}
                 className="
                   service-card
@@ -132,6 +140,7 @@ export default function Services() {
                     group-hover:bg-gradient-to-br group-hover:from-sky-400/30 group-hover:to-cyan-300/20
                     group-hover:shadow-lg group-hover:shadow-sky-400/40
                   "
+                  aria-hidden="true"
                 >
                   <Icon
                     size={22}
@@ -150,7 +159,7 @@ export default function Services() {
                 <span className="inline-block mt-6 text-sky-400 text-sm hover:translate-x-1 transition">
                   Learn More →
                 </span>
-              </div>
+              </article>
             );
           })}
         </div>

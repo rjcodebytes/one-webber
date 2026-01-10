@@ -21,46 +21,51 @@ export default function Navbar() {
       <div
         className={`
           mx-auto transition-all duration-300 pointer-events-auto
-          ${scrolled
-            ? "max-w-6xl mt-3 rounded-2xl bg-black/40 backdrop-blur-xl border border-white/10 shadow-xl shadow-black/40"
-            : "max-w-7xl bg-transparent"}
+          ${
+            scrolled
+              ? "max-w-6xl mt-3 rounded-2xl bg-black/40 backdrop-blur-xl border border-white/10 shadow-xl shadow-black/40"
+              : "max-w-7xl bg-transparent"
+          }
         `}
       >
-        <div
+        <nav
+          aria-label="Main Navigation"
           className={`
             px-6 flex items-center justify-between transition-all duration-300
             ${scrolled ? "py-3" : "py-4"}
           `}
         >
           {/* Logo */}
-          <div className="flex items-center gap-2">
+          <h1 className="flex items-center gap-2 text-2xl font-bold text-white leading-none">
             <Image
               src="/logo.png"
-              alt="OpenWebbers Logo"
+              alt="OneWebbers - Web Development Company"
               width={36}
               height={36}
               className="object-contain"
             />
-            <span className="text-2xl font-bold text-white leading-none">
-              One<span className="text-sky-400">Webbers</span>
-            </span>
-          </div>
+            One<span className="text-sky-400">Webbers</span>
+          </h1>
 
           {/* Desktop Menu */}
-          <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
-            <Link href="/" className="text-sky-400 hover:text-sky-300 transition">
-              Home
-            </Link>
-            <Link href="/" className="text-white/80 hover:text-white transition">
-              About Us
-            </Link>
+          <ul className="hidden md:flex items-center gap-8 text-sm font-medium">
+            <li>
+              <Link href="/" className="text-sky-400 hover:text-sky-300 transition">
+                Home
+              </Link>
+            </li>
+            <li>
+              <Link href="/" className="text-white/80 hover:text-white transition">
+                About Us
+              </Link>
+            </li>
 
-            <div className="relative group">
+            <li className="relative group">
               <button className="text-white/80 hover:text-white transition">
                 Services ▾
               </button>
 
-              <div
+              <ul
                 className="
                   absolute left-0 mt-4 w-80
                   rounded-2xl
@@ -82,24 +87,29 @@ export default function Navbar() {
                   "Frontend & Backend Development",
                   "Software Development",
                 ].map((item, i) => (
-                  <Link
-                    key={i}
-                    href="#services"
-                    className="block px-6 py-3 text-sm text-white/80 hover:text-white hover:bg-white/5 transition"
-                  >
-                    {item}
-                  </Link>
+                  <li key={i}>
+                    <Link
+                      href="#services"
+                      className="block px-6 py-3 text-sm text-white/80 hover:text-white hover:bg-white/5 transition"
+                    >
+                      {item}
+                    </Link>
+                  </li>
                 ))}
-              </div>
-            </div>
+              </ul>
+            </li>
 
-            <Link href="/" className="text-white/80 hover:text-white transition">
-              Process
-            </Link>
-            <Link href="/" className="text-white/80 hover:text-white transition">
-              Portfolio
-            </Link>
-          </nav>
+            <li>
+              <Link href="/" className="text-white/80 hover:text-white transition">
+                Process
+              </Link>
+            </li>
+            <li>
+              <Link href="/" className="text-white/80 hover:text-white transition">
+                Portfolio
+              </Link>
+            </li>
+          </ul>
 
           {/* CTA */}
           <Link
@@ -114,10 +124,10 @@ export default function Navbar() {
             Contact Us
           </Link>
 
-          <button className="md:hidden text-white">
+          <button className="md:hidden text-white" aria-label="Open Menu">
             <Menu />
           </button>
-        </div>
+        </nav>
       </div>
     </header>
   );
