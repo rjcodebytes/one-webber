@@ -26,23 +26,30 @@ export default function Project() {
   ];
 
   return (
-    <section className="relative w-full py-24 bg-black">
+    <section
+      id="portfolio"
+      className="relative w-full py-24 bg-black"
+      aria-labelledby="portfolio-heading"
+    >
       <div className="max-w-7xl mx-auto px-6">
         {/* Heading */}
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-5xl font-bold text-white">
+        <header className="text-center mb-16">
+          <h2
+            id="portfolio-heading"
+            className="text-3xl md:text-5xl font-bold text-white"
+          >
             Our <span className="text-sky-400">Portfolio</span>
           </h2>
           <p className="mt-4 text-white/60 max-w-2xl mx-auto">
             Explore our recent projects and see how we've helped companies
             achieve their goals.
           </p>
-        </div>
+        </header>
 
         {/* Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
           {projects.map((p, i) => (
-            <div
+            <article
               key={i}
               className="
                 group rounded-2xl overflow-hidden
@@ -53,7 +60,10 @@ export default function Project() {
               "
             >
               {/* Top image placeholder */}
-              <div className="h-48 bg-gradient-to-br from-sky-400/20 to-cyan-500/10" />
+              <div
+                className="h-48 bg-gradient-to-br from-sky-400/20 to-cyan-500/10"
+                aria-hidden="true"
+              />
 
               <div className="p-6">
                 <h3 className="text-xl font-semibold text-white">
@@ -64,17 +74,17 @@ export default function Project() {
                   {p.desc}
                 </p>
 
-                <div className="my-4 h-px w-full bg-white/10" />
+                <hr className="my-4 h-px w-full bg-white/10 border-none" />
 
-                <div className="flex flex-wrap gap-4 text-xs text-sky-400">
+                <ul className="flex flex-wrap gap-4 text-xs text-sky-400">
                   {p.stats.map((s, idx) => (
-                    <span key={idx}>{s}</span>
+                    <li key={idx}>{s}</li>
                   ))}
-                </div>
+                </ul>
 
-                <div className="mt-4 flex flex-wrap gap-2">
+                <ul className="mt-4 flex flex-wrap gap-2">
                   {p.tags.map((t, idx) => (
-                    <span
+                    <li
                       key={idx}
                       className="
                         px-3 py-1 rounded-full text-xs
@@ -84,11 +94,11 @@ export default function Project() {
                       "
                     >
                       {t}
-                    </span>
+                    </li>
                   ))}
-                </div>
+                </ul>
               </div>
-            </div>
+            </article>
           ))}
         </div>
       </div>

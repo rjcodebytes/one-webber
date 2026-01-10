@@ -52,29 +52,38 @@ export default function Testimonial() {
   const t = testimonials[index];
 
   return (
-    <section className="relative w-full py-24 bg-black">
+    <section
+      id="testimonials"
+      className="relative w-full py-24 bg-black"
+      aria-labelledby="testimonials-heading"
+    >
       <div className="max-w-5xl mx-auto px-6 text-center">
-        <h2 className="text-3xl md:text-5xl font-bold text-white">
-          What Our <span className="text-sky-400">Clients</span> Say
-        </h2>
-        <p className="mt-4 text-white/60 max-w-2xl mx-auto">
-          Join hundreds of companies that have trusted us to transform their
-          digital presence.
-        </p>
+        <header>
+          <h2
+            id="testimonials-heading"
+            className="text-3xl md:text-5xl font-bold text-white"
+          >
+            What Our <span className="text-sky-400">Clients</span> Say
+          </h2>
+          <p className="mt-4 text-white/60 max-w-2xl mx-auto">
+            Join hundreds of companies that have trusted us to transform their
+            digital presence.
+          </p>
+        </header>
 
         {/* Card */}
         <div className="relative mt-26">
-          <div className="rounded-2xl p-10 bg-black/40 backdrop-blur-xl border border-sky-400/20 transition-all">
+          <article className="rounded-2xl p-10 bg-black/40 backdrop-blur-xl border border-sky-400/20 transition-all">
             {/* Stars */}
-            <div className="flex justify-center gap-1 mb-6 text-yellow-400">
+            <div className="flex justify-center gap-1 mb-6 text-yellow-400" aria-hidden="true">
               {Array.from({ length: 5 }).map((_, i) => (
                 <Star key={i} size={18} fill="currentColor" />
               ))}
             </div>
 
-            <p className="text-white/80 text-lg leading-relaxed max-w-3xl mx-auto">
+            <blockquote className="text-white/80 text-lg leading-relaxed max-w-3xl mx-auto">
               “{t.quote}”
-            </p>
+            </blockquote>
 
             <div className="mt-8 flex items-center justify-center gap-4">
               <div className="w-12 h-12 rounded-full bg-sky-400 flex items-center justify-center text-black font-bold">
@@ -87,11 +96,12 @@ export default function Testimonial() {
             </div>
 
             <p className="mt-4 text-sky-400 text-sm">{t.tag}</p>
-          </div>
+          </article>
 
           {/* Controls */}
           <button
             onClick={prev}
+            aria-label="Previous testimonial"
             className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-14 w-10 h-10 rounded-full border border-sky-400/30 text-sky-400 flex items-center justify-center hover:bg-sky-400/10 transition"
           >
             <ChevronLeft size={18} />
@@ -99,6 +109,7 @@ export default function Testimonial() {
 
           <button
             onClick={next}
+            aria-label="Next testimonial"
             className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-14 w-10 h-10 rounded-full border border-sky-400/30 text-sky-400 flex items-center justify-center hover:bg-sky-400/10 transition"
           >
             <ChevronRight size={18} />
@@ -106,7 +117,7 @@ export default function Testimonial() {
         </div>
 
         {/* Dots */}
-        <div className="mt-6 flex justify-center gap-2">
+        <div className="mt-6 flex justify-center gap-2" aria-hidden="true">
           {testimonials.map((_, i) => (
             <span
               key={i}

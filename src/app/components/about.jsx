@@ -42,73 +42,77 @@ export default function About() {
   const statsRef = useRef(null);
   const [startCount, setStartCount] = useState(false);
 
- useEffect(() => {
-  const ctx = gsap.context(() => {
-    gsap.fromTo(
-      headerRef.current.children,
-      { opacity: 0, y: 40 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        ease: "power3.out",
-        stagger: 0.15,
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 70%",
-        },
-        immediateRender: false,
-      }
-    );
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        headerRef.current.children,
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          ease: "power3.out",
+          stagger: 0.15,
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 70%",
+          },
+          immediateRender: false,
+        }
+      );
 
-    gsap.fromTo(
-      ".about-card",
-      { opacity: 0, y: 50 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        ease: "power3.out",
-        stagger: 0.2,
-        scrollTrigger: {
-          trigger: ".about-card",
-          start: "top 80%",
-        },
-        immediateRender: false,
-      }
-    );
+      gsap.fromTo(
+        ".about-card",
+        { opacity: 0, y: 50 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          ease: "power3.out",
+          stagger: 0.2,
+          scrollTrigger: {
+            trigger: ".about-card",
+            start: "top 80%",
+          },
+          immediateRender: false,
+        }
+      );
 
-    gsap.fromTo(
-      statsRef.current,
-      { opacity: 0, y: 40 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: statsRef.current,
-          start: "top 80%",
-          onEnter: () => setStartCount(true),
-        },
-        immediateRender: false,
-      }
-    );
-  }, sectionRef);
+      gsap.fromTo(
+        statsRef.current,
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: statsRef.current,
+            start: "top 80%",
+            onEnter: () => setStartCount(true),
+          },
+          immediateRender: false,
+        }
+      );
+    }, sectionRef);
 
-  return () => ctx.revert();
-}, []);
-
+    return () => ctx.revert();
+  }, []);
 
   return (
     <section
       ref={sectionRef}
+      id="about"
       className="relative w-full min-h-[80vh] py-24 bg-black"
+      aria-labelledby="about-heading"
     >
       <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
         {/* Header */}
-        <div ref={headerRef}>
-          <h2 className="text-3xl md:text-5xl font-bold text-white">
+        <header ref={headerRef}>
+          <h2
+            id="about-heading"
+            className="text-3xl md:text-5xl font-bold text-white"
+          >
             About <span className="text-sky-400">Onewebbers</span>
           </h2>
 
@@ -116,28 +120,31 @@ export default function About() {
             A team of passionate engineers and designers dedicated to
             transforming businesses through cutting-edge technology.
           </p>
-        </div>
+        </header>
 
         {/* Cards */}
         <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
           {[
             {
               title: "Our Mission",
-              text: "Empower businesses with innovative digital solutions that drive growth, efficiency, and competitive advantage in an increasingly digital world.",
+              text:
+                "Empower businesses with innovative digital solutions that drive growth, efficiency, and competitive advantage in an increasingly digital world.",
               color: "text-sky-400",
             },
             {
               title: "Our Vision",
-              text: "To be the leading digital transformation partner for global enterprises, known for innovation, reliability, and exceptional delivery.",
+              text:
+                "To be the leading digital transformation partner for global enterprises, known for innovation, reliability, and exceptional delivery.",
               color: "text-cyan-400",
             },
             {
               title: "Our Values",
-              text: "Excellence in execution, transparent communication, continuous innovation, and unwavering commitment to our clients' success.",
+              text:
+                "Excellence in execution, transparent communication, continuous innovation, and unwavering commitment to our clients' success.",
               color: "text-blue-400",
             },
           ].map((card, i) => (
-            <div
+            <article
               key={i}
               className="
                 about-card
@@ -153,15 +160,16 @@ export default function About() {
               <p className="mt-4 text-white/70 leading-relaxed">
                 {card.text}
               </p>
-            </div>
+            </article>
           ))}
         </div>
 
-        <div className="my-20 h-px w-full bg-white/10" />
+        <hr className="my-20 h-px w-full bg-white/10 border-none" />
 
         {/* Stats */}
-        <div
+        <section
           ref={statsRef}
+          aria-label="Company Statistics"
           className="grid grid-cols-2 md:grid-cols-4 gap-10"
         >
           <div className="text-center">
@@ -183,7 +191,7 @@ export default function About() {
             <Counter end={99} suffix="%" start={startCount} />
             <p className="mt-2 text-white/60 text-sm">Uptime Guarantee</p>
           </div>
-        </div>
+        </section>
       </div>
     </section>
   );
