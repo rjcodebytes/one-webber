@@ -24,3 +24,32 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+@keyframes floatSlow {
+  0% { transform: translateY(0) translateX(-50%); }
+  50% { transform: translateY(40px) translateX(-50%); }
+  100% { transform: translateY(0) translateX(-50%); }
+}
+
+@keyframes floatMedium {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-60px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes floatFast {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(80px); }
+  100% { transform: translateY(0); }
+}
+
+.animate-floatSlow {
+  animation: floatSlow 18s ease-in-out infinite;
+}
+
+.animate-floatMedium {
+  animation: floatMedium 22s ease-in-out infinite;
+}
+
+.animate-floatFast {
+  animation: floatFast 26s ease-in-out infinite;
+}
