@@ -1,10 +1,21 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, memo, useMemo } from "react";
 import gsap from "gsap";
 
-export default function Hero() {
+function Hero() {
   const contentRef = useRef(null);
+
+  // Memoized background so it never re-renders
+  const unicornBg = useMemo(
+    () => (
+      <div
+        data-us-project="p7Ff6pfTrb5Gs59C7nLC"
+        className="absolute inset-0 z-0"
+      />
+    ),
+    []
+  );
 
   useEffect(() => {
     if (!window.UnicornStudio) {
@@ -49,10 +60,7 @@ export default function Hero() {
         aria-labelledby="hero-heading"
       >
         {/* Unicorn Background */}
-        <div
-          data-us-project="p7Ff6pfTrb5Gs59C7nLC"
-          className="absolute inset-0 z-0"
-        />
+        {unicornBg}
 
         {/* Content */}
         <header
@@ -75,9 +83,9 @@ export default function Hero() {
           </h1>
 
           <p className="hero-item mt-6 text-white/70 max-w-2xl text-lg">
-            Enterprise-grade IT services for startups, businesses, and enterprises.
-            We combine innovation, security, and performance to transform your
-            digital vision into reality.
+            Enterprise-grade IT services for startups, businesses, and
+            enterprises. We combine innovation, security, and performance to
+            transform your digital vision into reality.
           </p>
 
           <div className="hero-item mt-10 flex gap-4">
@@ -93,3 +101,6 @@ export default function Hero() {
     </main>
   );
 }
+
+// Prevents re-render unless props change
+export default memo(Hero);

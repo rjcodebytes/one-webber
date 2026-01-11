@@ -1,5 +1,4 @@
-"use client";
-
+"use client"
 import { useState } from "react";
 import { ChevronLeft, ChevronRight, Star } from "lucide-react";
 
@@ -49,88 +48,89 @@ export default function Testimonial() {
   const next = () =>
     setIndex((i) => (i === testimonials.length - 1 ? 0 : i + 1));
 
-  const t = testimonials[index];
+  const getItem = (offset) =>
+    testimonials[(index + offset + testimonials.length) % testimonials.length];
+
+const positions = [
+  {
+    key: "left",
+    item: getItem(-1),
+    className:
+      "scale-90 -translate-x-40 z-10 opacity-60 blur-[1px] " +
+      "border-sky-400/40 shadow-[0_0_40px_rgba(56,189,248,0.25)]",
+  },
+  {
+    key: "center",
+    item: getItem(0),
+    className:
+      "scale-100 translate-x-0 z-20 opacity-100 " +
+      "border-sky-400/30 shadow-[0_0_80px_rgba(56,189,248,0.35)]",
+  },
+  {
+    key: "right",
+    item: getItem(1),
+    className:
+      "scale-90 translate-x-40 z-10 opacity-60 blur-[1px] " +
+      "border-sky-400/40 shadow-[0_0_40px_rgba(56,189,248,0.25)]",
+  },
+];
+
 
   return (
-    <section
-      id="testimonials"
-      className="relative w-full py-24 bg-black"
-      aria-labelledby="testimonials-heading"
-    >
+    <section className="relative w-full py-24 bg-black">
       <div className="max-w-5xl mx-auto px-6 text-center">
-        <header>
-          <h2
-            id="testimonials-heading"
-            className="text-3xl md:text-5xl font-bold text-white"
-          >
-            What Our <span className="text-sky-400">Clients</span> Say
-          </h2>
-          <p className="mt-4 text-white/60 max-w-2xl mx-auto">
-            Join hundreds of companies that have trusted us to transform their
-            digital presence.
-          </p>
-        </header>
+        <h2 className="text-3xl md:text-5xl font-bold text-white">
+          What Our <span className="text-sky-400">Clients</span> Say
+        </h2>
 
-        {/* Card */}
-        <div className="relative mt-26">
-          <article className="rounded-2xl p-10 bg-black/40 backdrop-blur-xl border border-sky-400/20 transition-all">
-            {/* Stars */}
-            <div className="flex justify-center gap-1 mb-6 text-yellow-400" aria-hidden="true">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <Star key={i} size={18} fill="currentColor" />
-              ))}
-            </div>
+        <div className="relative mt-20 h-[340px] flex items-center justify-center">
+          {positions.map(({ key, item, className }) => (
+           <article
+  key={key}
+  className={`absolute w-full max-w-2xl rounded-2xl p-10 
+  bg-black/40 backdrop-blur-xl 
+  border transition-all duration-500 ${className}`}
+>
 
-            <blockquote className="text-white/80 text-lg leading-relaxed max-w-3xl mx-auto">
-              “{t.quote}”
-            </blockquote>
-
-            <div className="mt-8 flex items-center justify-center gap-4">
-              <div className="w-12 h-12 rounded-full bg-sky-400 flex items-center justify-center text-black font-bold">
-                {t.name.charAt(0)}
+              <div className="flex justify-center gap-1 mb-6 text-yellow-400">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Star key={i} size={18} fill="currentColor" />
+                ))}
               </div>
-              <div className="text-left">
-                <p className="text-white font-medium">{t.name}</p>
-                <p className="text-white/60 text-sm">{t.role}</p>
-              </div>
-            </div>
 
-            <p className="mt-4 text-sky-400 text-sm">{t.tag}</p>
-          </article>
+              <blockquote className="text-white/80 text-lg leading-relaxed">
+                “{item.quote}”
+              </blockquote>
+
+              <div className="mt-8 flex items-center justify-center gap-4">
+                <div className="w-12 h-12 rounded-full bg-sky-400 flex items-center justify-center text-black font-bold">
+                  {item.name.charAt(0)}
+                </div>
+                <div className="text-left">
+                  <p className="text-white font-medium">{item.name}</p>
+                  <p className="text-white/60 text-sm">{item.role}</p>
+                </div>
+              </div>
+
+              <p className="mt-4 text-sky-400 text-sm">{item.tag}</p>
+            </article>
+          ))}
 
           {/* Controls */}
           <button
             onClick={prev}
-            aria-label="Previous testimonial"
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-14 w-10 h-10 rounded-full border border-sky-400/30 text-sky-400 flex items-center justify-center hover:bg-sky-400/10 transition"
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-10 w-10 h-10 rounded-full border border-sky-400/30 text-sky-400 flex items-center justify-center hover:bg-sky-400/10 transition"
           >
             <ChevronLeft size={18} />
           </button>
 
           <button
             onClick={next}
-            aria-label="Next testimonial"
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-14 w-10 h-10 rounded-full border border-sky-400/30 text-sky-400 flex items-center justify-center hover:bg-sky-400/10 transition"
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-10 w-10 h-10 rounded-full border border-sky-400/30 text-sky-400 flex items-center justify-center hover:bg-sky-400/10 transition"
           >
             <ChevronRight size={18} />
           </button>
         </div>
-
-        {/* Dots */}
-        <div className="mt-6 flex justify-center gap-2" aria-hidden="true">
-          {testimonials.map((_, i) => (
-            <span
-              key={i}
-              className={`h-2 w-2 rounded-full transition ${
-                i === index ? "bg-sky-400 w-6" : "bg-white/20"
-              }`}
-            />
-          ))}
-        </div>
-
-        <p className="mt-4 text-white/40 text-sm">
-          {index + 1} of {testimonials.length}
-        </p>
       </div>
     </section>
   );

@@ -23,7 +23,7 @@ export default function Navbar() {
           mx-auto transition-all duration-300 pointer-events-auto
           ${
             scrolled
-              ? "max-w-6xl mt-3 rounded-2xl bg-black/40 backdrop-blur-xl border border-white/10 shadow-xl shadow-black/40"
+              ? "max-w-6xl mt-3 rounded-2xl bg-black/40 backdrop-blur-xl   shadow-xl shadow-black/40"
               : "max-w-7xl bg-transparent"
           }
         `}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, memo, useMemo } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
@@ -14,42 +14,45 @@ import {
 
 gsap.registerPlugin(ScrollTrigger);
 
-const services = [
-  {
-    title: "Web Development",
-    desc: "Modern, responsive web applications built with cutting-edge frameworks and best practices.",
-    icon: Code2,
-  },
-  {
-    title: "App Development",
-    desc: "Native and cross-platform mobile applications that deliver exceptional user experiences.",
-    icon: Smartphone,
-  },
-  {
-    title: "UI/UX Design",
-    desc: "Beautiful, intuitive interfaces designed with user-centered principles and modern aesthetics.",
-    icon: Palette,
-  },
-  {
-    title: "Cloud Solutions",
-    desc: "Scalable cloud infrastructure and deployment solutions for enterprise-grade applications.",
-    icon: Cloud,
-  },
-  {
-    title: "AI Integration",
-    desc: "Intelligent solutions powered by machine learning and AI to automate and enhance processes.",
-    icon: Zap,
-  },
-  {
-    title: "Digital Transformation",
-    desc: "End-to-end digital transformation strategies and implementation for modern enterprises.",
-    icon: Rocket,
-  },
-];
-
-export default function Services() {
+function Services() {
   const sectionRef = useRef(null);
   const headerRef = useRef(null);
+
+  const services = useMemo(
+    () => [
+      {
+        title: "Web Development",
+        desc: "Modern, responsive web applications built with cutting-edge frameworks and best practices.",
+        icon: Code2,
+      },
+      {
+        title: "App Development",
+        desc: "Native and cross-platform mobile applications that deliver exceptional user experiences.",
+        icon: Smartphone,
+      },
+      {
+        title: "UI/UX Design",
+        desc: "Beautiful, intuitive interfaces designed with user-centered principles and modern aesthetics.",
+        icon: Palette,
+      },
+      {
+        title: "Cloud Solutions",
+        desc: "Scalable cloud infrastructure and deployment solutions for enterprise-grade applications.",
+        icon: Cloud,
+      },
+      {
+        title: "AI Integration",
+        desc: "Intelligent solutions powered by machine learning and AI to automate and enhance processes.",
+        icon: Zap,
+      },
+      {
+        title: "Digital Transformation",
+        desc: "End-to-end digital transformation strategies and implementation for modern enterprises.",
+        icon: Rocket,
+      },
+    ],
+    []
+  );
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -99,7 +102,6 @@ export default function Services() {
       aria-labelledby="services-heading"
     >
       <div className="max-w-7xl mx-auto px-6">
-        {/* Heading */}
         <header ref={headerRef} className="text-center">
           <h2
             id="services-heading"
@@ -113,7 +115,6 @@ export default function Services() {
           </p>
         </header>
 
-        {/* Cards */}
         <div className="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((s, i) => {
             const Icon = s.icon;
@@ -140,7 +141,6 @@ export default function Services() {
                     group-hover:bg-gradient-to-br group-hover:from-sky-400/30 group-hover:to-cyan-300/20
                     group-hover:shadow-lg group-hover:shadow-sky-400/40
                   "
-                  aria-hidden="true"
                 >
                   <Icon
                     size={22}
@@ -164,7 +164,6 @@ export default function Services() {
           })}
         </div>
 
-        {/* Bottom CTA */}
         <div className="mt-20 text-center group">
           <p className="text-white/60 mb-6">
             Not sure which service fits your needs?
@@ -197,3 +196,5 @@ export default function Services() {
     </section>
   );
 }
+
+export default memo(Services);
