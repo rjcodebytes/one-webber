@@ -20,7 +20,7 @@ export default function Home() {
   useEffect(() => {
     // Initialize Lenis for smooth scrolling
     const lenis = new Lenis({
-      duration: 1.1,
+      duration: 0.6,
       easing: (t) => 1 - Math.pow(1 - t, 3), // easeOutCubic
       smoothTouch: true,
       touchMultiplier: 1.2,

@@ -2,22 +2,20 @@
 
 import { useEffect, useState, useRef, useMemo, useCallback } from "react";
 import Link from "next/link";
-import { Menu } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import Image from "next/image";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
+
   const navRef = useRef(null);
   const logoRef = useRef(null);
   const menuItemsRef = useRef([]);
   const ctaRef = useRef(null);
   const ticking = useRef(false);
 
-  // Memoize services array to prevent re-creation
   const services = useMemo(
     () => [
       "UI/UX Design (Web & Mobile)",
@@ -30,7 +28,6 @@ export default function Navbar() {
     []
   );
 
-  // Throttled scroll handler for better performance
   const handleScroll = useCallback(() => {
     if (!ticking.current) {
       window.requestAnimationFrame(() => {
@@ -47,23 +44,11 @@ export default function Navbar() {
   }, [handleScroll]);
 
   useEffect(() => {
-    // Initial animation on page load
     const ctx = gsap.context(() => {
-      // Set initial state without animation flickering
-      gsap.set([logoRef.current, ...menuItemsRef.current.filter(Boolean), ctaRef.current], {
-        willChange: "transform, opacity",
-      });
-
       gsap.fromTo(
         logoRef.current,
-        { opacity: 0, x: -50 },
-        {
-          opacity: 1,
-          x: 0,
-          duration: 0.8,
-          ease: "power3.out",
-          clearProps: "willChange",
-        }
+        { opacity: 0, x: -40 },
+        { opacity: 1, x: 0, duration: 0.8, ease: "power3.out" }
       );
 
       gsap.fromTo(
@@ -76,7 +61,6 @@ export default function Navbar() {
           stagger: 0.1,
           ease: "power2.out",
           delay: 0.2,
-          clearProps: "willChange",
         }
       );
 
@@ -88,8 +72,7 @@ export default function Navbar() {
           scale: 1,
           duration: 0.6,
           ease: "back.out(1.7)",
-          delay: 0.5,
-          clearProps: "willChange",
+          delay: 0.4,
         }
       );
     }, navRef);
@@ -97,19 +80,17 @@ export default function Navbar() {
     return () => ctx.revert();
   }, []);
 
-  // Smooth GSAP transition for navbar shrink - optimized
   useEffect(() => {
     if (navRef.current) {
       gsap.to(navRef.current, {
         borderRadius: scrolled ? "1rem" : "0rem",
-        y: scrolled ? 12 : 0,
-        duration: 0.5,
+        y: scrolled ? 8 : 0,
+        duration: 0.4,
         ease: "power2.out",
       });
     }
   }, [scrolled]);
 
-  // Memoize className to prevent re-calculation
   const navClassName = useMemo(
     () =>
       `mx-auto pointer-events-auto ${
@@ -122,33 +103,33 @@ export default function Navbar() {
 
   const navInnerClassName = useMemo(
     () =>
-      `px-6 flex items-center justify-between transition-all duration-300 ${
-        scrolled ? "py-3" : "py-4"
+      `px-4 md:px-6 flex items-center justify-between transition-all duration-300 ${
+        scrolled ? "py-2 md:py-3" : "py-3 md:py-4"
       }`,
     [scrolled]
   );
 
   return (
-    <header className="fixed top-5 w-full z-50 pointer-events-none">
+    <header className="fixed top-0 md:top-5 w-full z-50 pointer-events-none">
       <div
         ref={navRef}
         className={navClassName}
         style={{
-          transition: "max-width 0.5s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.5s ease, box-shadow 0.5s ease",
-          willChange: scrolled ? "transform" : "auto",
+          transition:
+            "max-width 0.4s cubic-bezier(0.4,0,0.2,1), background-color 0.4s ease, box-shadow 0.4s ease",
         }}
       >
         <nav aria-label="Main Navigation" className={navInnerClassName}>
           {/* Logo */}
           <h1
             ref={logoRef}
-            className="flex items-center gap-2 text-2xl font-bold text-white leading-none"
+            className="flex items-center gap-2 text-lg md:text-2xl font-bold text-white leading-none"
           >
             <Image
               src="/logo.png"
-              alt="OneWebbers - Web Development Company"
-              width={36}
-              height={36}
+              alt="OneWebbers"
+              width={32}
+              height={32}
               className="object-contain"
             />
             One<span className="text-sky-400">Webbers</span>
@@ -162,12 +143,15 @@ export default function Navbar() {
               </Link>
             </li>
             <li ref={(el) => (menuItemsRef.current[1] = el)}>
-              <Link href="/" className="text-white/80 hover:text-white transition">
+              <Link href="#about" className="text-white/80 hover:text-white transition">
                 About Us
               </Link>
             </li>
 
-            <li ref={(el) => (menuItemsRef.current[2] = el)} className="relative group">
+            <li
+              ref={(el) => (menuItemsRef.current[2] = el)}
+              className="relative group"
+            >
               <button className="text-white/80 hover:text-white transition">
                 Services ▾
               </button>
@@ -200,12 +184,7 @@ export default function Navbar() {
             </li>
 
             <li ref={(el) => (menuItemsRef.current[3] = el)}>
-              <Link href="/" className="text-white/80 hover:text-white transition">
-                Process
-              </Link>
-            </li>
-            <li ref={(el) => (menuItemsRef.current[4] = el)}>
-              <Link href="/" className="text-white/80 hover:text-white transition">
+              <Link href="#projects" className="text-white/80 hover:text-white transition">
                 Portfolio
               </Link>
             </li>
@@ -214,8 +193,9 @@ export default function Navbar() {
           {/* CTA */}
           <Link
             ref={ctaRef}
-            href="/"
+            href="#contact"
             className="
+              hidden md:inline-block
               ml-3 px-4 py-1.5 rounded-lg
               bg-sky-400 text-black text-sm font-medium
               hover:bg-sky-300 transition
@@ -225,10 +205,57 @@ export default function Navbar() {
             Contact Us
           </Link>
 
-          <button className="md:hidden text-white" aria-label="Open Menu">
-            <Menu />
+          {/* Mobile Toggle */}
+          <button
+            onClick={() => setOpen((v) => !v)}
+            className="md:hidden text-white pointer-events-auto"
+            aria-label="Open Menu"
+          >
+            {open ? <X /> : <Menu />}
           </button>
         </nav>
+      </div>
+
+      {/* Mobile Menu */}
+      <div
+        className={`md:hidden fixed inset-x-0 top-[64px] bg-black/85 backdrop-blur-xl border-t border-white/10
+        transition-all duration-300 ${
+          open
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 -translate-y-4 pointer-events-none"
+        }`}
+      >
+        <ul className="flex flex-col px-6 py-5 gap-4 text-white/80">
+          <li>
+            <Link onClick={() => setOpen(false)} href="/">
+              Home
+            </Link>
+          </li>
+          <li>
+            <Link onClick={() => setOpen(false)} href="#about">
+              About Us
+            </Link>
+          </li>
+          <li>
+            <Link onClick={() => setOpen(false)} href="#services">
+              Services
+            </Link>
+          </li>
+          <li>
+            <Link onClick={() => setOpen(false)} href="#projects">
+              Portfolio
+            </Link>
+          </li>
+          <li>
+            <Link
+              onClick={() => setOpen(false)}
+              href="#contact"
+              className="mt-2 inline-block px-4 py-2 rounded-lg bg-sky-400 text-black text-sm font-medium"
+            >
+              Contact Us
+            </Link>
+          </li>
+        </ul>
       </div>
     </header>
   );

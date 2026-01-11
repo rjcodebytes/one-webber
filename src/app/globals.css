@@ -108,3 +108,7 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+html, body {
+  width: 100%;
+  overflow-x: hidden;
+}

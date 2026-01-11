@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, memo, useMemo } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Target, Briefcase, Eye } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -68,61 +69,58 @@ function About() {
   );
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        headerRef.current.children,
-        { opacity: 0, y: 40 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1,
-          ease: "power3.out",
-          stagger: 0.15,
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 70%",
-          },
-          immediateRender: false,
-        }
-      );
+  const ctx = gsap.context(() => {
+    gsap.fromTo(
+      headerRef.current.children,
+      { opacity: 0, y: 40 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: "power3.out",
+        stagger: 0.15,
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 70%",
+        },
+      }
+    );
 
-      gsap.fromTo(
-        ".about-card",
-        { opacity: 0, y: 50 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1,
-          ease: "power3.out",
-          stagger: 0.2,
-          scrollTrigger: {
-            trigger: ".about-card",
-            start: "top 80%",
-          },
-          immediateRender: false,
-        }
-      );
+    gsap.fromTo(
+      ".about-left",
+      { opacity: 0, x: -60 },
+      {
+        opacity: 1,
+        x: 0,
+        duration: 1,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 70%",
+        },
+      }
+    );
 
-      gsap.fromTo(
-        statsRef.current,
-        { opacity: 0, y: 40 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: statsRef.current,
-            start: "top 80%",
-            onEnter: () => setStartCount(true),
-          },
-          immediateRender: false,
-        }
-      );
-    }, sectionRef);
+    gsap.fromTo(
+      ".timeline-item",
+      { opacity: 0, y: 40 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: "power3.out",
+        stagger: 0.25,
+        scrollTrigger: {
+          trigger: ".timeline-item",
+          start: "top 80%",
+        },
+      }
+    );
+  }, sectionRef);
 
-    return () => ctx.revert();
-  }, []);
+  return () => ctx.revert();
+}, []);
+
 
   return (
     <section
@@ -143,51 +141,88 @@ function About() {
           </p>
         </header>
 
-        <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
-          {cards.map((card, i) => (
-            <article
-              key={i}
-              className="
-                about-card
-                rounded-2xl p-8 text-left
-                bg-black/40 backdrop-blur-xl
-                border border-sky-400/20
-                hover:border-sky-400/40 transition
-              "
-            >
-              <h3 className={`text-xl font-semibold ${card.color}`}>
-                {card.title}
-              </h3>
-              <p className="mt-4 text-white/70 leading-relaxed">
-                {card.text}
-              </p>
-            </article>
-          ))}
-        </div>
+       <div className="mt-20 grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+  {/* Left Column */}
+  <div className="about-left text-left">
+    <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight">
+      Elevating Your Brand
+      <br />
+      with <span className="text-sky-400">Future-Ready</span>
+      <br />
+      Digital Solutions.
+    </h3>
 
-        <hr className="my-20 h-px w-full bg-white/10 border-none" />
+    <div className="relative mt-10 p-8 rounded-2xl bg-black/60 backdrop-blur-xl border border-sky-400/30 shadow-[0_0_60px_rgba(56,189,248,0.15)] hover:shadow-[0_0_90px_rgba(56,189,248,0.25)] transition">
+      <p className="text-sky-400 text-lg font-semibold">
+        🚀 Ready to grow your business?
+      </p>
+      <p className="mt-2 text-white/70">
+        Let’s build something powerful together.
+      </p>
+      <p className="mt-2 text-white/70">
+        Whether you’re launching a new product or improving an existing one, we’re here to help you create digital experiences that stand out and perform.
+      </p>
 
-        <section
-          ref={statsRef}
-          className="grid grid-cols-2 md:grid-cols-4 gap-10"
+      <button className="mt-6 px-6 py-3 rounded-xl bg-sky-400 text-black font-semibold hover:bg-sky-300 hover:scale-[1.03] transition shadow-lg shadow-sky-400/30">
+        Get Started →
+      </button>
+    </div>
+  </div>
+
+  {/* Right Column – Vertical Features */}
+  <div className="relative pl-6">
+    <span className="absolute left-2 top-0 h-full w-px bg-white/10" />
+
+    {[
+      {
+        title: "Our Mission",
+        text:
+          "Our mission is to help startups and businesses design, build, and grow digital products that users love and businesses trust.",
+        icon: Target,
+      },
+      {
+        title: "What We Do",
+        text:
+          "We craft high-performance websites, apps, and platforms that convert visitors into loyal users.",
+        icon: Briefcase,
+      },
+      {
+        title: "Our Vision",
+        text:
+          "Our vision is to become a trusted digital partner for brands worldwide by delivering innovative, growth-oriented solutions.",
+        icon: Eye,
+      },
+    ].map((item, i) => {
+      const Icon = item.icon;
+      return (
+        <div
+          key={i}
+          className="timeline-item relative flex gap-6 mb-14 group"
         >
-          <div className="text-center">
-            <Counter end={500} suffix="+" start={startCount} />
-            <p className="mt-2 text-white/60 text-sm">Projects Completed</p>
+         
+
+          <div className="mt-1 w-10 h-10 rounded-xl bg-sky-400/10 flex items-center justify-center text-sky-400 group-hover:scale-110 group-hover:bg-sky-400/20 transition">
+            <Icon size={25} />
           </div>
-          <div className="text-center">
-            <Counter end={250} suffix="+" start={startCount} />
-            <p className="mt-2 text-white/60 text-sm">Happy Clients</p>
+
+          <div>
+            <h4 className="text-xl font-semibold text-white">
+              {item.title}
+            </h4>
+            <p className="mt-2 text-white/60 leading-relaxed max-w-md">
+              {item.text}
+            </p>
           </div>
-          <div className="text-center">
-            <Counter end={8} start={startCount} />
-            <p className="mt-2 text-white/60 text-sm">Years Experience</p>
-          </div>
-          <div className="text-center">
-            <Counter end={99} suffix="%" start={startCount} />
-            <p className="mt-2 text-white/60 text-sm">Uptime Guarantee</p>
-          </div>
-        </section>
+        </div>
+      );
+    })}
+  </div>
+</div>
+
+
+
+
+       
       </div>
     </section>
   );

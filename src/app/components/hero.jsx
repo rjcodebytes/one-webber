@@ -1,10 +1,14 @@
 "use client";
 
-import { useEffect, useRef, memo, useMemo } from "react";
+import { useEffect, useRef, useState, memo, useMemo } from "react";
 import gsap from "gsap";
+
+const words = ["UI/UX Design", "Website Design & Development", "Web Application Development","Mobile App Development (Android / iOS)","Frontend & Backend Development","Software Development"];
 
 function Hero() {
   const contentRef = useRef(null);
+  const wordRef = useRef(null);
+  const [wordIndex, setWordIndex] = useState(0);
 
   // Memoized background so it never re-renders
   const unicornBg = useMemo(
@@ -50,7 +54,45 @@ function Hero() {
       );
     }, contentRef);
 
-    return () => ctx.revert();
+  const interval = setInterval(() => {
+  if (!wordRef.current) return;
+
+  const tl = gsap.timeline();
+
+  tl.to(wordRef.current, {
+    opacity: 0,
+    y: -12,
+    scale: 0.95,
+    filter: "blur(4px)",
+    duration: 0.35,
+    ease: "power3.inOut",
+  }).add(() => {
+    setWordIndex((i) => (i + 1) % words.length);
+  }).fromTo(
+    wordRef.current,
+    {
+      opacity: 0,
+      y: 14,
+      scale: 1.05,
+      filter: "blur(4px)",
+    },
+    {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      filter: "blur(0px)",
+      duration: 0.45,
+      ease: "power3.out",
+    },
+    "-=0.05"
+  );
+}, 1800); // adjust timing here (e.g., 1500–2500)
+
+
+    return () => {
+      clearInterval(interval);
+      ctx.revert();
+    };
   }, []);
 
   return (
@@ -79,7 +121,12 @@ function Hero() {
               Building Future-Ready
             </span>
             <br />
-            <span className="text-white">Digital Solutions</span>
+            <span
+              ref={wordRef}
+              className="text-white inline-block min-h-[1.2em]"
+            >
+              {words[wordIndex]}
+            </span>
           </h1>
 
           <p className="hero-item mt-6 text-white/70 max-w-2xl text-lg">
@@ -102,5 +149,4 @@ function Hero() {
   );
 }
 
-// Prevents re-render unless props change
 export default memo(Hero);
