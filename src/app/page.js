@@ -3,7 +3,6 @@ import Hero from "../app/components/hero";
 import About from "../app/components/about";
 import Services from "../app/components/services";
 import Contact from "../app/components/contact";
-
 import Footer from "../app/components/footer";
 import Project from "./components/projects";
 import Testimonial from "./components/testimonial";
@@ -11,17 +10,21 @@ import Testimonial from "./components/testimonial";
 export default function Home() {
   return (
     <>
-      <Navbar />
+    
+        <Navbar />
+     
+
       <main>
         <Hero />
         <About />
         <Services />
-        <Project/>
-         <Testimonial/>
+        <Project />
+        <Testimonial />
         <Contact />
-        
       </main>
+
       <Footer />
     </>
   );
 }
+
