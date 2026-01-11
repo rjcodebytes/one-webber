@@ -65,6 +65,11 @@ html {
     box-shadow 0.3s ease,
     transform 0.3s ease,
     opacity 0.3s ease;
+  cursor: url('https://img.icons8.com/lollipop/48/blue-pointer.png'), auto;
+}
+
+a, button, [role="button"] {
+  cursor: url('https://img.icons8.com/lollipop/48/blue-pointer.png'), pointer;
 }
 
 body {
