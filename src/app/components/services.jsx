@@ -1,196 +1,114 @@
 "use client";
 
-import { useEffect, useRef, memo, useMemo } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import {
-  Code2,
-  Smartphone,
-  Palette,
-  Cloud,
-  Zap,
-  Rocket,
-} from "lucide-react";
+import { memo } from "react";
+import { ArrowUpRight, Monitor, Palette, Smartphone, Bot } from "lucide-react";
+import Link from "next/link";
 
-gsap.registerPlugin(ScrollTrigger);
+const services = [
+  {
+    id: "01",
+    title: "Website Design & Development",
+    description:
+      "Craft visually stunning, high-performance websites engineered for speed, scalability, SEO, and exceptional user experiences that drive measurable business growth.",
+    Icon: Monitor,
+  },
+  {
+    id: "02",
+    title: "UI/UX Design (Web & Mobile)",
+    description:
+      "Create intuitive, research-driven interfaces that combine aesthetics with usability, ensuring every interaction feels effortless and meaningful.",
+    Icon: Palette,
+  },
+  {
+    id: "03",
+    title: "Mobile App Development",
+    description:
+      "Develop secure, scalable mobile applications for Android and iOS that empower users with seamless performance and engaging digital experiences.",
+    Icon: Smartphone,
+  },
+  {
+    id: "04",
+    title: "AI Solutions & Automation",
+    description:
+      "Transform your business with intelligent AI solutions, custom chatbots, workflow automation, and smart integrations that save time and increase efficiency.",
+    Icon: Bot,
+  },
+];
 
 function Services() {
-  const sectionRef = useRef(null);
-  const headerRef = useRef(null);
-
-  const services = useMemo(
-    () => [
-      {
-        title: "Web Development",
-        desc: "Modern, responsive web applications built with cutting-edge frameworks and best practices.",
-        icon: Code2,
-      },
-      {
-        title: "App Development",
-        desc: "Native and cross-platform mobile applications that deliver exceptional user experiences.",
-        icon: Smartphone,
-      },
-      {
-        title: "UI/UX Design",
-        desc: "Beautiful, intuitive interfaces designed with user-centered principles and modern aesthetics.",
-        icon: Palette,
-      },
-      {
-        title: "Cloud Solutions",
-        desc: "Scalable cloud infrastructure and deployment solutions for enterprise-grade applications.",
-        icon: Cloud,
-      },
-      {
-        title: "AI Integration",
-        desc: "Intelligent solutions powered by machine learning and AI to automate and enhance processes.",
-        icon: Zap,
-      },
-      {
-        title: "Digital Transformation",
-        desc: "End-to-end digital transformation strategies and implementation for modern enterprises.",
-        icon: Rocket,
-      },
-    ],
-    []
-  );
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        headerRef.current.children,
-        { opacity: 0, y: 40 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1,
-          ease: "power3.out",
-          stagger: 0.15,
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 70%",
-          },
-          immediateRender: false,
-        }
-      );
-
-      gsap.fromTo(
-        ".service-card",
-        { opacity: 0, y: 50 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1,
-          ease: "power3.out",
-          stagger: 0.2,
-          scrollTrigger: {
-            trigger: ".service-card",
-            start: "top 80%",
-          },
-          immediateRender: false,
-        }
-      );
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
-
   return (
-    <section
-      ref={sectionRef}
-      id="services"
-      className="relative w-full py-24 bg-black"
-      aria-labelledby="services-heading"
-    >
-      <div className="max-w-7xl mx-auto px-6">
-        <header ref={headerRef} className="text-center">
-          <h2
-            id="services-heading"
-            className="text-3xl md:text-5xl font-bold text-white"
-          >
-            Our <span className="text-sky-400">Services</span>
-          </h2>
-          <p className="mt-4 text-white/60 max-w-2xl mx-auto">
-            Comprehensive digital solutions tailored to your business needs and
-            goals.
-          </p>
-        </header>
+    <section id="services" className="relative w-full bg-white py-24 md:py-32 overflow-hidden">
+      <div className="mx-auto w-full max-w-7xl px-6 md:px-8">
+        {/* Header */}
+        <div className="flex flex-col lg:flex-row items-start lg:items-end justify-between gap-8 mb-16 lg:mb-20">
+          {/* Left */}
+          <div className="w-full lg:w-1/2">
+            <h2 className="flex items-center text-gray-700 text-base font-medium">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#683AF2] shrink-0 mr-2.5" />
+              Services
+            </h2>
+            <p className="text-[40px] md:text-[48px] lg:text-[60px] font-medium tracking-[-1.5px] lg:tracking-[-2.5px] leading-[1.05] lg:leading-[1.05] text-[#1a1a1a] mt-3">
+              Everything you{" "}
+              <br className="hidden sm:block" />
+              need to grow.
+            </p>
+          </div>
 
-        <div className="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {services.map((s, i) => {
-            const Icon = s.icon;
-            return (
-              <article
-                key={i}
-                className="
-                  service-card
-                  group rounded-2xl p-8
-                  bg-black/40 backdrop-blur-xl
-                  border border-sky-400/20
-                  hover:border-sky-400/50
-                  transition-all duration-300
-                "
-              >
-                <div
-                  className="
-                    w-12 h-12 rounded-xl
-                    bg-sky-400/10
-                    flex items-center justify-center
-                    text-sky-400
-                    transition-all duration-300
-                    group-hover:scale-110
-                    group-hover:bg-gradient-to-br group-hover:from-sky-400/30 group-hover:to-cyan-300/20
-                    group-hover:shadow-lg group-hover:shadow-sky-400/40
-                  "
-                >
-                  <Icon
-                    size={22}
-                    className="transition-all duration-300 group-hover:drop-shadow-[0_0_8px_rgba(56,189,248,0.8)]"
-                  />
-                </div>
-
-                <h3 className="mt-6 text-xl font-semibold text-white">
-                  {s.title}
-                </h3>
-
-                <p className="mt-3 text-white/70 leading-relaxed">
-                  {s.desc}
-                </p>
-
-                <span className="inline-block mt-6 text-sky-400 text-sm hover:translate-x-1 transition">
-                  Learn More →
-                </span>
-              </article>
-            );
-          })}
+          {/* Right */}
+          <div className="w-full lg:w-1/3 flex flex-col items-start gap-5 pb-2">
+            <p className="text-sm md:text-base text-gray-500 leading-relaxed">
+              From strategy to execution, we offer a full suite of marketing
+              services designed to grow your brand, reach your audience, and
+              drive real results.
+            </p>
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-3 rounded-full bg-[#683AF2] text-white text-sm font-medium px-5 py-2.5 hover:scale-105 transition-transform duration-150"
+            >
+              Contact us
+              <span className="flex items-center justify-center w-6 h-6 rounded-full bg-white text-[#683AF2]">
+                <ArrowUpRight size={14} strokeWidth={3} />
+              </span>
+            </Link>
+          </div>
         </div>
 
-        <div className="mt-20 text-center group">
-          <p className="text-white/60 mb-6">
-            Not sure which service fits your needs?
-          </p>
+        {/* Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
+          {services.map((service) => {
+            const Icon = service.Icon;
+            return (
+              <div
+                key={service.id}
+                className="group relative flex flex-col rounded-2xl min-h-90 p-8 bg-[#EFEAFF] overflow-hidden cursor-pointer transition-transform duration-300 hover:-translate-y-1"
+              >
+                {/* Top row */}
+                <div className="flex items-start justify-between w-full relative z-10">
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#683AF2] shrink-0" />
+                  <span className="text-[80px] md:text-[90px] font-medium leading-none text-black/5 select-none -mr-2 -mt-4">
+                    {service.id}
+                  </span>
+                </div>
 
-          <button
-            className="
-              relative px-8 py-3 rounded-xl
-              bg-gradient-to-r from-sky-400 via-cyan-400 to-blue-500
-              text-black font-semibold
-              transition-all duration-300
-              hover:brightness-110
-              shadow-lg shadow-sky-400/40
-              overflow-hidden
-            "
-          >
-            <span className="relative z-10">Schedule a Consultation</span>
-            <span
-              className="
-                absolute inset-0
-                bg-gradient-to-r from-transparent via-white/40 to-transparent
-                -translate-x-full
-                group-hover:translate-x-full
-                transition-transform duration-700
-              "
-            />
-          </button>
+                {/* Bottom content */}
+                <div className="flex flex-col items-start mt-auto pt-16 relative z-10">
+                  <div className="mb-4">
+                    <Icon
+                      size={24}
+                      strokeWidth={1.5}
+                      className="text-[#1a1a1a]"
+                    />
+                  </div>
+                  <h3 className="text-lg font-bold leading-snug mb-2 text-[#1a1a1a]">
+                    {service.title}
+                  </h3>
+                  <p className="text-sm leading-relaxed text-black/70 max-w-[90%]">
+                    {service.description}
+                  </p>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
