@@ -112,7 +112,7 @@ function Hero() {
         {/* CTA Buttons */}
         <div className="animate flex flex-wrap items-center justify-center gap-3 mb-8">
           <a
-            href="https://calendly.com/akhirahlab/30min?month=2026-05"
+            href="https://calendly.com/contact-onewebbers/30min"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center px-10 py-4 rounded-full bg-[#683AF2] text-white font-bold text-[15px] whitespace-nowrap hover:scale-105 transition-transform duration-150 shadow-lg"
@@ -140,7 +140,7 @@ function Hero() {
           </div>
           <span className="w-2 h-2 rounded-full bg-emerald-500 flex-shrink-0" />
           <a
-            href="https://calendly.com/akhirahlab/30min?month=2026-05"
+            href="https://calendly.com/contact-onewebbers/30min"
             target="_blank"
             rel="noopener noreferrer"
             className="text-sm font-semibold text-[#1a1a1a] hover:text-[#683AF2] transition-colors"
@@ -158,7 +158,7 @@ function Hero() {
           </div>
           <span className="w-2 h-2 rounded-full bg-emerald-500 flex-shrink-0" />
           <a
-            href="https://calendly.com/akhirahlab/30min?month=2026-05"
+            href="https://calendly.com/contact-onewebbers/30min"
             target="_blank"
             rel="noopener noreferrer"
             className="text-sm font-semibold text-[#1a1a1a] hover:text-[#683AF2] transition-colors"

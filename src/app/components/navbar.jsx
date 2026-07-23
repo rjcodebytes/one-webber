@@ -21,6 +21,8 @@ export default function Navbar() {
   const mobileLinksContainerRef = useRef(null);
   const dropdownRef = useRef(null);
   const chevronRef = useRef(null);
+  const headerRef = useRef(null);
+  const lastScrollY = useRef(0);
   const ticking = useRef(false);
 
   // Memoize services array to prevent re-creation
@@ -38,7 +40,29 @@ export default function Navbar() {
   const handleScroll = useCallback(() => {
     if (!ticking.current) {
       window.requestAnimationFrame(() => {
-        setScrolled(window.scrollY > 20);
+        const currentScrollY = window.scrollY;
+        setScrolled(currentScrollY > 20);
+
+        // Show/hide navbar based on scroll direction
+        if (headerRef.current) {
+          if (currentScrollY > 100 && currentScrollY > lastScrollY.current) {
+            // Scrolling down past threshold — hide
+            gsap.to(headerRef.current, {
+              y: -150,
+              duration: 0.4,
+              ease: "power2.out",
+            });
+          } else if (currentScrollY < lastScrollY.current) {
+            // Scrolling up — show
+            gsap.to(headerRef.current, {
+              y: 0,
+              duration: 0.4,
+              ease: "power2.out",
+            });
+          }
+        }
+
+        lastScrollY.current = currentScrollY;
         ticking.current = false;
       });
       ticking.current = true;
@@ -231,7 +255,10 @@ export default function Navbar() {
   );
 
   return (
-    <header className="fixed top-0 left-0 w-full z-50">
+    <header
+      ref={headerRef}
+      className="fixed top-0 left-0 w-full z-50 will-change-transform"
+    >
       <div className="relative flex items-center justify-between px-4 sm:px-10 py-4 sm:py-6">
 
         {/* Logo */}
@@ -297,17 +324,12 @@ export default function Navbar() {
               </div>
             </div>
 
-            <Link href="/" className="text-gray-700 font-semibold hover:text-[#683AF2] transition">
-              Work
-            </Link>
-
-            <Link href="/" className="text-gray-700 font-semibold hover:text-[#683AF2] transition">
-              Pricing
-            </Link>
-
-            <Link href="/" className="text-gray-700 font-semibold hover:text-[#683AF2] transition">
-              Blog
-            </Link>
+            <button
+              onClick={() => scrollToSection("testimonials")}
+              className="text-gray-700 font-semibold hover:text-[#683AF2] transition"
+            >
+              Testimonials
+            </button>
           </nav>
         </div>
 
@@ -374,29 +396,13 @@ export default function Navbar() {
             </div>
           </div>
 
-          <Link
-            href="/"
-            onClick={closeMobileMenu}
-            className="text-xl text-white/80 hover:text-white py-4 border-b border-white/5 transition"
+          <button
+            onClick={() => scrollToSection("testimonials")}
+            className="text-xl text-white/80 hover:text-white py-4 border-b border-white/5 transition w-full text-left"
           >
-            Work
-          </Link>
+            Testimonials
+          </button>
 
-          <Link
-            href="/"
-            onClick={closeMobileMenu}
-            className="text-xl text-white/80 hover:text-white py-4 border-b border-white/5 transition"
-          >
-            Pricing
-          </Link>
-
-          <Link
-            href="/"
-            onClick={closeMobileMenu}
-            className="text-xl text-white/80 hover:text-white py-4 border-b border-white/5 transition"
-          >
-            Blog
-          </Link>
 
           <Link
             href="/contact"
