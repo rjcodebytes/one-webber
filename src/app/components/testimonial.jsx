@@ -24,7 +24,7 @@ const testimonials = [
   {
     id: "03",
     name: "Anand Gunde",
-    role: "Founder & CEO \u2013 Anand Broker | RentifyAI",
+    role: "Founder & CEO \u2013 RentifyAI",
     rating: 5,
     quote:
       "OneWebbers played a key role in bringing the RentifyAI platform to life. From designing an intuitive user experience to developing our complete web platform and mobile application, the team demonstrated exceptional technical expertise and a deep understanding of our business requirements. They were always available for discussions, delivered features on time, and provided valuable suggestions that improved the final product. I highly recommend OneWebbers to anyone looking for a reliable technology partner capable of building scalable digital solutions.",
@@ -175,7 +175,7 @@ function Testimonial() {
               </div>
 
               {/* Bottom content */}
-              <div className="flex flex-col items-start mt-auto pt-12 relative z-10">
+              <div className="flex flex-col items-start relative z-10">
                 {/* Stars */}
                 <div className="flex gap-1 mb-4">
                   {Array.from({ length: t.rating }).map((_, i) => (
