@@ -22,6 +22,8 @@ export default function Navbar() {
   const dropdownRef = useRef(null);
   const chevronRef = useRef(null);
   const headerRef = useRef(null);
+  const mobileToggleRef = useRef(null);
+  const mobileMenuOpenRef = useRef(false);
   const lastScrollY = useRef(0);
   const ticking = useRef(false);
 
@@ -43,7 +45,7 @@ export default function Navbar() {
         const currentScrollY = window.scrollY;
         setScrolled(currentScrollY > 20);
 
-        // Show/hide navbar based on scroll direction
+        // Show/hide navbar + mobile toggle based on scroll direction
         if (headerRef.current) {
           if (currentScrollY > 100 && currentScrollY > lastScrollY.current) {
             // Scrolling down past threshold — hide
@@ -52,6 +54,14 @@ export default function Navbar() {
               duration: 0.4,
               ease: "power2.out",
             });
+            if (mobileToggleRef.current && !mobileMenuOpenRef.current) {
+              gsap.to(mobileToggleRef.current, {
+                y: -80,
+                opacity: 0,
+                duration: 0.4,
+                ease: "power2.out",
+              });
+            }
           } else if (currentScrollY < lastScrollY.current) {
             // Scrolling up — show
             gsap.to(headerRef.current, {
@@ -59,6 +69,14 @@ export default function Navbar() {
               duration: 0.4,
               ease: "power2.out",
             });
+            if (mobileToggleRef.current) {
+              gsap.to(mobileToggleRef.current, {
+                y: 0,
+                opacity: 1,
+                duration: 0.4,
+                ease: "power2.out",
+              });
+            }
           }
         }
 
@@ -122,7 +140,9 @@ export default function Navbar() {
       );
 
       // Set initial state for mobile menu
-      gsap.set(mobileMenuRef.current, { x: "100%" });
+      if (mobileMenuRef.current) {
+        gsap.set(mobileMenuRef.current, { xPercent: 100 });
+      }
       gsap.set(mobileMenuOverlayRef.current, { opacity: 0, pointerEvents: "none" });
 
       // Set initial state for dropdown
@@ -147,11 +167,13 @@ export default function Navbar() {
   // Mobile menu open/close animation
   useEffect(() => {
     if (mobileMenuOpen) {
-      gsap.to(mobileMenuRef.current, {
-        x: "0%",
-        duration: 0.4,
-        ease: "power3.out",
-      });
+      if (mobileMenuRef.current) {
+        gsap.to(mobileMenuRef.current, {
+          xPercent: 0,
+          duration: 0.4,
+          ease: "power3.out",
+        });
+      }
       gsap.to(mobileMenuOverlayRef.current, {
         opacity: 1,
         duration: 0.3,
@@ -174,11 +196,13 @@ export default function Navbar() {
       }
       document.body.style.overflow = "hidden";
     } else {
-      gsap.to(mobileMenuRef.current, {
-        x: "100%",
-        duration: 0.3,
-        ease: "power2.in",
-      });
+      if (mobileMenuRef.current) {
+        gsap.to(mobileMenuRef.current, {
+          xPercent: 100,
+          duration: 0.3,
+          ease: "power2.in",
+        });
+      }
       gsap.to(mobileMenuOverlayRef.current, {
         opacity: 0,
         duration: 0.3,
@@ -196,8 +220,25 @@ export default function Navbar() {
     };
   }, []);
 
-  const toggleMobileMenu = () => setMobileMenuOpen((prev) => !prev);
-  const closeMobileMenu = () => setMobileMenuOpen(false);
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen((prev) => {
+      const next = !prev;
+      mobileMenuOpenRef.current = next;
+      // When opening the menu, ensure toggle is visible
+      if (next && mobileToggleRef.current) {
+        gsap.set(mobileToggleRef.current, { y: 0, opacity: 1 });
+      }
+      return next;
+    });
+  };
+  const closeMobileMenu = () => {
+    setMobileMenuOpen(false);
+    mobileMenuOpenRef.current = false;
+    // If scrolled past threshold, re-hide the toggle now that menu is closed
+    if (mobileToggleRef.current && window.scrollY > 100) {
+      gsap.set(mobileToggleRef.current, { y: -80, opacity: 0 });
+    }
+  };
 
   // Smooth scroll to section
   const scrollToSection = (id) => {
@@ -255,6 +296,7 @@ export default function Navbar() {
   );
 
   return (
+    <>
     <header
       ref={headerRef}
       className="fixed top-0 left-0 w-full z-50 will-change-transform"
@@ -344,30 +386,32 @@ export default function Navbar() {
         >
           Contact Us
         </Link>
-
-        {/* Mobile Menu Toggle */}
-        <button
-          onClick={toggleMobileMenu}
-          className="md:hidden z-50 p-2 text-white rounded-full bg-[#4A20E3] hover:text-sky-400 transition-colors"
-          aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
-        >
-          {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
-        </button>
       </div>
+    </header>
 
-      {/* Mobile Menu Overlay */}
-      <div
-        ref={mobileMenuOverlayRef}
-        onClick={closeMobileMenu}
-        className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden opacity-0 pointer-events-none"
-      />
+    {/* Mobile Menu Toggle — outside header so it stays above overlay */}
+    <button
+      ref={mobileToggleRef}
+      onClick={toggleMobileMenu}
+      className="fixed top-[35px] right-[26px] md:hidden z-[110] p-2 text-white rounded-full bg-[#4A20E3] hover:text-sky-400 transition-colors"
+      aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+    >
+      {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+    </button>
 
-      {/* Mobile Menu Drawer */}
-      <div
-        ref={mobileMenuRef}
-        className="fixed top-0 right-0 h-full w-full max-w-sm bg-[#0a0a0a]/95 backdrop-blur-2xl border-l border-white/10 z-40 md:hidden overflow-y-auto translate-x-full"
-      >
-        <div ref={mobileLinksContainerRef} className="flex flex-col pt-28 px-8 pb-10 gap-1">
+    {/* Mobile Menu Overlay */}
+    <div
+      ref={mobileMenuOverlayRef}
+      onClick={closeMobileMenu}
+      className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[90] md:hidden opacity-0 pointer-events-none"
+    />
+
+    {/* Mobile Menu Drawer */}
+    <div
+      ref={mobileMenuRef}
+      className="fixed top-0 right-0 h-screen w-[320px] bg-[#0a0a0a] backdrop-blur-2xl border-l border-white/10 z-[100] md:hidden overflow-y-auto"
+    >
+      <div ref={mobileLinksContainerRef} className="flex flex-col pt-28 px-8 pb-10 gap-1">
           <button
             onClick={() => scrollToSection("about")}
             className="text-xl text-white/80 hover:text-white py-4 border-b border-white/5 transition w-full text-left"
@@ -413,6 +457,6 @@ export default function Navbar() {
           </Link>
         </div>
       </div>
-    </header>
+    </>
   );
 }
